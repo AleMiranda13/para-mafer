@@ -11,10 +11,9 @@
 const Scenes = {
 
   /* ══════════════════════════════════════════════════════════════════════
-     Construcción del contenido dinámico (polaroids, sobres) + registro
+     Construcción del contenido dinámico (sobres) + registro
      ══════════════════════════════════════════════════════════════════ */
   init() {
-    Scenes.buildPolaroids();
     Scenes.buildEnvelopes();
     Rain.init();
     Galaxy.init();
@@ -28,50 +27,7 @@ const Scenes = {
     };
   },
 
-  /* ── Escena 4: polaroids flotantes ──────────────────────────────────── */
-  buildPolaroids() {
-    const wrap = $('#polaroids');
-    wrap.innerHTML = '';
-    CONFIG.memories.forEach((m, i) => {
-      const card = document.createElement('button');
-      card.className = 'polaroid';
-      card.type = 'button';
-      card.style.setProperty('--rot', U.rand(-7, 7).toFixed(2) + 'deg');
-      card.style.setProperty('--delay', (i * 0.7).toFixed(2) + 's');
-      card.style.setProperty('--dur', U.rand(6, 9).toFixed(2) + 's');
-      card.innerHTML = `
-        <span class="polaroid-tape"></span>
-        <span class="photo" data-file="${m.img}">
-          <img src="${m.img}" alt="${m.title}" loading="lazy">
-        </span>
-        <span class="polaroid-caption">${m.title}</span>`;
-      const img = $('img', card);
-      img.addEventListener('error', () => $('.photo', card).classList.add('missing'));
-      card.addEventListener('click', e => { e.stopPropagation(); Scenes.openMemory(i, card); });
-      wrap.appendChild(card);
-    });
-  },
-
-  openMemory(i, card) {
-    const m = CONFIG.memories[i];
-    Audio.sfx('click');
-    const box = Overlay.show(`
-      <figure class="memory-view">
-        <span class="photo big" data-file="${m.img}">
-          <img src="${m.img}" alt="${m.title}">
-        </span>
-        <figcaption>
-          <h3>${m.title}</h3>
-          <p>${m.caption}</p>
-        </figcaption>
-      </figure>`, 'is-memory');
-    const img = $('img', box);
-    img.addEventListener('error', () => $('.photo', box).classList.add('missing'));
-    const r = card.getBoundingClientRect();
-    FX.hearts(r.left + r.width / 2, r.top + r.height / 2, 5, { scale: 0.8 });
-  },
-
-  /* ── Escena 5: sobres ───────────────────────────────────────────────── */
+  /* ── Escena 4: sobres ───────────────────────────────────────────────── */
   buildEnvelopes() {
     const wrap = $('#envelopes');
     wrap.innerHTML = '';
@@ -229,28 +185,12 @@ const Scenes = {
       exit() { Scenes._linkRAF = null; }
     });
 
-    /* ── 4 · RECUERDOS ─────────────────────────────────────────────── */
-    SM.register('memories', {
+    /* ── 4 · CARTAS ────────────────────────────────────────────────── */
+    SM.register('letters', {
       mood: 'deep', fx: 'space',
       async enter(el, token) {
         // fill:'backwards' → al terminar devuelve el control al CSS,
         // así siguen flotando y responden al hover/toque.
-        $$('.polaroid', el).forEach((p, i) => {
-          A.anim(p, [
-            { opacity: 0, transform: 'translateY(70px) scale(.85)', filter: 'blur(10px)' },
-            { opacity: 1, transform: 'translateY(0) scale(1)', filter: 'blur(0)' }
-          ], { duration: 1100, delay: 260 + i * 150, easing: EASE.back, fill: 'backwards' });
-        });
-        await A.wait(1800);
-        if (token !== SM.token) return;
-        SM.showActions(el);
-      }
-    });
-
-    /* ── 5 · CARTAS ────────────────────────────────────────────────── */
-    SM.register('letters', {
-      mood: 'deep', fx: 'space',
-      async enter(el, token) {
         $$('.envelope', el).forEach((p, i) => {
           A.anim(p, [
             { opacity: 0, transform: 'translateY(60px) scale(.8)', filter: 'blur(10px)' },
@@ -263,7 +203,7 @@ const Scenes = {
       }
     });
 
-    /* ── 6 · GALAXIA ───────────────────────────────────────────────── */
+    /* ── 5 · GALAXIA ───────────────────────────────────────────────── */
     SM.register('galaxy', {
       mood: 'deep', fx: 'space',
       async enter(el, token) {
@@ -280,7 +220,7 @@ const Scenes = {
       exit() { Galaxy.stop(); }
     });
 
-    /* ── 8 · LLUVIA ────────────────────────────────────────────────── */
+    /* ── 6 · LLUVIA ────────────────────────────────────────────────── */
     SM.register('rain', {
       mood: 'rain', fx: 'rain',
       async enter(el, token) {
@@ -316,7 +256,7 @@ const Scenes = {
       }
     });
 
-    /* ── 9 · CAMBIO A CÁLIDO ───────────────────────────────────────── */
+    /* ── 7 · CAMBIO A CÁLIDO ───────────────────────────────────────── */
     SM.register('warm', {
       mood: 'warm', fx: 'warm',
       async enter(el, token) {
@@ -332,7 +272,7 @@ const Scenes = {
       }
     });
 
-    /* ── 10 · EL ABRAZO ────────────────────────────────────────────── */
+    /* ── 8 · EL ABRAZO ─────────────────────────────────────────────── */
     SM.register('hug', {
       mood: 'dark', fx: 'hug',
       async enter(el, token) {
@@ -421,7 +361,7 @@ const Scenes = {
       }
     });
 
-    /* ── 11 · CAJA SORPRESA ────────────────────────────────────────── */
+    /* ── 9 · CAJA SORPRESA ─────────────────────────────────────────── */
     SM.register('gift', {
       mood: 'warm', fx: 'warm',
       async enter(el, token) {
@@ -443,7 +383,7 @@ const Scenes = {
       }
     });
 
-    /* ── 12 · FINAL ────────────────────────────────────────────────── */
+    /* ── 10 · FINAL ────────────────────────────────────────────────── */
     SM.register('final', {
       mood: 'calm', fx: 'calm',
       async enter(el, token) {
@@ -496,7 +436,6 @@ const Scenes = {
       }
 
       case 'to-sky':      SM.go('sky'); break;
-      case 'to-memories': SM.go('memories'); break;
       case 'to-letters':  SM.go('letters'); break;
       case 'to-galaxy':   SM.go('galaxy'); break;
       case 'to-rain':     SM.go('rain'); break;

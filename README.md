@@ -1,9 +1,9 @@
 # ✨ Para vos
 
 Una pequeña experiencia interactiva y cinematográfica, hecha como regalo.
-No es una página web común: son 12 escenas encadenadas con animaciones,
-partículas, un personaje que respira y te mira, cartas, recuerdos, una
-galaxia con secretos, lluvia, y un abrazo.
+No es una página web común: son 10 escenas encadenadas con animaciones,
+partículas, un personaje que respira y te mira, cartas, una galaxia con
+secretos, lluvia, y un abrazo.
 
 **Sin frameworks, sin dependencias, sin internet.** Solo HTML, CSS y
 JavaScript vanilla. Se abre haciendo doble clic en `index.html`.
@@ -13,17 +13,16 @@ JavaScript vanilla. Se abre haciendo doble clic en `index.html`.
 ## 📑 Índice
 
 1. [Cómo ejecutar el proyecto](#1-cómo-ejecutar-el-proyecto)
-2. [Dónde poner las fotos](#2-dónde-poner-las-fotos)
-3. [Dónde poner la música](#3-dónde-poner-la-música)
-4. [Dónde cambiar su nombre](#4-dónde-cambiar-su-nombre)
-5. [Dónde cambiar los mensajes](#5-dónde-cambiar-los-mensajes)
-6. [Dónde agregar recuerdos](#6-dónde-agregar-recuerdos)
-7. [Cómo cambiar el personaje](#7-cómo-cambiar-el-personaje)
-8. [Cómo publicarla gratis](#8-cómo-publicarla-gratis)
-9. [Las 12 escenas](#-las-12-escenas)
-10. [Estructura del proyecto](#-estructura-del-proyecto)
-11. [Detalles escondidos](#-detalles-escondidos)
-12. [Rendimiento](#-rendimiento)
+2. [Dónde poner la música](#2-dónde-poner-la-música)
+3. [Dónde cambiar los nombres](#3-dónde-cambiar-los-nombres)
+4. [Dónde cambiar los mensajes](#4-dónde-cambiar-los-mensajes)
+5. [Dónde agregar cartas y estrellas](#5-dónde-agregar-cartas-y-estrellas)
+6. [Cómo cambiar el personaje](#6-cómo-cambiar-el-personaje)
+7. [Cómo publicarla gratis](#7-cómo-publicarla-gratis)
+8. [Las escenas](#-las-escenas)
+9. [Estructura del proyecto](#-estructura-del-proyecto)
+10. [Detalles escondidos](#-detalles-escondidos)
+11. [Rendimiento](#-rendimiento)
 
 ---
 
@@ -33,11 +32,11 @@ JavaScript vanilla. Se abre haciendo doble clic en `index.html`.
 
 Todo funciona desde el archivo local: no hay build, ni `npm install`, ni
 servidor. Las únicas cosas que necesitan internet son las tipografías de
-Google Fonts (si no hay internet, el navegador usa una tipografía parecida
-y la experiencia sigue funcionando).
+Google Fonts (si no hay internet, el navegador usa una parecida y la
+experiencia sigue funcionando).
 
-**Con un servidor local** (recomendado si vas a probar audio, porque algunos
-navegadores bloquean el sonido en archivos `file://`):
+**Con un servidor local** (recomendado si vas a probar el audio, porque
+algunos navegadores bloquean el sonido en archivos `file://`):
 
 ```bash
 python -m http.server 8000
@@ -54,37 +53,12 @@ la URL `#escena=` con el nombre de la escena:
 index.html#escena=hug
 ```
 
-Nombres válidos: `intro`, `character`, `sky`, `memories`, `letters`,
-`galaxy`, `rain`, `warm`, `hug`, `gift`, `final`.
+Nombres válidos: `intro`, `character`, `sky`, `letters`, `galaxy`, `rain`,
+`warm`, `hug`, `gift`, `final`.
 
 ---
 
-## 2. Dónde poner las fotos
-
-Carpeta: **`assets/images/`**
-
-Poné ahí tus fotos con estos nombres (son los que el proyecto busca por
-defecto):
-
-```
-assets/images/recuerdo-1.jpg
-assets/images/recuerdo-2.jpg
-assets/images/recuerdo-3.jpg
-assets/images/recuerdo-4.jpg
-```
-
-Mientras los archivos no existan, la página muestra un placeholder elegante
-que dice exactamente qué archivo falta. **No se rompe nada.**
-
-> 💡 Recortalas cuadradas (por ejemplo 1000×1000 px) y guardalas como `.jpg`
-> de menos de 400 KB para que carguen rápido en el celular.
-
-Si querés usar otros nombres o más fotos, mirá el
-[punto 6](#6-dónde-agregar-recuerdos).
-
----
-
-## 3. Dónde poner la música
+## 2. Dónde poner la música
 
 Archivo: **`assets/music.mp3`**
 
@@ -100,19 +74,19 @@ Simplemente copiá tu canción ahí con ese nombre exacto. La música:
 
 Carpeta: **`assets/sounds/`**
 
-```
-assets/sounds/click.mp3     → botones
-assets/sounds/letter.mp3    → abrir un sobre
-assets/sounds/star.mp3      → descubrir una estrella
-assets/sounds/gift.mp3      → abrir la caja de regalo
-assets/sounds/hug.mp3       → el abrazo
-```
+| Archivo | Cuándo suena |
+|---|---|
+| `click.mp3` | botones |
+| `letter.mp3` | abrir un sobre |
+| `star.mp3` | descubrir una estrella |
+| `gift.mp3` | abrir la caja de regalo |
+| `hug.mp3` | el abrazo |
 
 Cualquiera que falte, se ignora en silencio.
 
 **Música y sonidos gratis y sin derechos de autor:**
-[Pixabay Music](https://pixabay.com/music/), [Pixabay
-Sound Effects](https://pixabay.com/sound-effects/), [Free Music
+[Pixabay Music](https://pixabay.com/music/), [Pixabay Sound
+Effects](https://pixabay.com/sound-effects/), [Free Music
 Archive](https://freemusicarchive.org/) (revisá siempre la licencia).
 Para el clima de la página buscá algo como *"romantic piano"*,
 *"emotional ambient"* o *"soft lofi"*.
@@ -132,33 +106,33 @@ audio: {
 
 ---
 
-## 4. Dónde cambiar su nombre
+## 3. Dónde cambiar los nombres
 
 Archivo: **`js/main.js`**, en las primeras líneas:
 
 ```js
 const CONFIG = {
-  herName: "Mi amor",   // ← el nombre de ella
-  myName:  "Yo",        // ← tu nombre
+  herName: "Mafer",   // ← el nombre de ella
+  myName:  "Ale",     // ← tu nombre
   ...
 ```
 
-`herName` aparece en la estrella de ella (escena 3) y `myName` en tu estrella
-y como firma al pie de cada carta.
+`herName` aparece en la estrella de ella (escena 3) y `myName` en tu
+estrella y como firma al pie de cada carta.
 
 ---
 
-## 5. Dónde cambiar los mensajes
+## 4. Dónde cambiar los mensajes
 
-**Todo el texto de la experiencia está en un solo lugar:** el objeto `CONFIG`
-al principio de `js/main.js`. No hace falta buscar texto por el código.
+**Todo el texto de la experiencia está en un solo lugar:** el objeto
+`CONFIG` al principio de `js/main.js`. No hace falta buscar texto por el
+código.
 
 | Qué querés cambiar | Dónde |
 |---|---|
 | Nombres | `CONFIG.herName`, `CONFIG.myName` |
 | Mensaje de la caja de regalo | `CONFIG.giftMessage` |
 | Mensaje final ("Te amo") | `CONFIG.finalMessage` |
-| Recuerdos / fotos | `CONFIG.memories` |
 | Cartas | `CONFIG.letters` |
 | Estrellas de la galaxia | `CONFIG.specialDates` |
 | Premio al encontrar las 5 estrellas | `CONFIG.galaxyReward` |
@@ -186,8 +160,8 @@ warm: {
 - `delay` → cuánto espera (en milisegundos) antes de que aparezca la frase
 - `hold` → cuánto se queda antes de pasar a la siguiente
 
-Podés agregar todas las frases que quieras a `lines`, o sacar las que no
-te gusten. Para cambiar el ritmo de una escena, tocá `delay` y `hold`.
+Podés agregar todas las frases que quieras a `lines`, o sacar las que no te
+gusten. Para cambiar el ritmo de una escena, tocá `delay` y `hold`.
 
 ### Cambiar los colores
 
@@ -208,27 +182,12 @@ Se aplican a toda la página automáticamente.
 
 ---
 
-## 6. Dónde agregar recuerdos
+## 5. Dónde agregar cartas y estrellas
 
-### Fotos (escena 4)
+### Cartas (escena 4)
 
-En `CONFIG.memories`. Agregá o sacá objetos de la lista; la página se
-adapta sola:
-
-```js
-memories: [
-  {
-    img: "assets/images/recuerdo-1.jpg",   // ruta de la foto
-    title: "Nuestro primer recuerdo",      // texto de la polaroid
-    caption: "El día que todo empezó."     // texto al abrirla
-  },
-  // ...agregá todos los que quieras
-]
-```
-
-### Cartas (escena 5)
-
-En `CONFIG.letters`. Usá `\n` para saltos de línea:
+En `CONFIG.letters`. Agregá o sacá objetos de la lista; la página se adapta
+sola. Usá `\n` para saltos de línea:
 
 ```js
 letters: [
@@ -239,7 +198,7 @@ letters: [
 ]
 ```
 
-### Estrellas de la galaxia (escena 6)
+### Estrellas de la galaxia (escena 5)
 
 En `CONFIG.specialDates`. El contador (`0 / 5`) se ajusta solo a la
 cantidad que pongas:
@@ -253,7 +212,7 @@ specialDates: [
 
 ---
 
-## 7. Cómo cambiar el personaje
+## 6. Cómo cambiar el personaje
 
 El personaje **no es una imagen**: es un SVG dibujado dentro de
 `index.html`, en el bloque `<template id="tpl-character">`. Por eso puede
@@ -295,14 +254,14 @@ Ojo: así perdés el parpadeo, la mirada y el abrazo animado.
 
 ---
 
-## 8. Cómo publicarla gratis
+## 7. Cómo publicarla gratis
 
-### GitHub Pages (el que ya está usando este repo)
+### GitHub Pages (el que ya usa este repo)
 
 1. Subí el proyecto a un repositorio de GitHub.
 2. En el repo: **Settings → Pages**.
 3. En *Source* elegí **Deploy from a branch**, rama `main`, carpeta `/ (root)`.
-4. Guardá. En un par de minutos la página queda publicada en
+4. Guardá. En un par de minutos queda publicada en
    `https://TU-USUARIO.github.io/NOMBRE-DEL-REPO/`.
 
 Cada vez que hagas `git push`, se actualiza sola.
@@ -312,7 +271,7 @@ Cada vez que hagas `git push`, se actualiza sola.
 1. Entrá a [app.netlify.com/drop](https://app.netlify.com/drop).
 2. Arrastrá la carpeta del proyecto entera a la ventana.
 3. Te da un link al instante. En *Site settings* podés cambiar el nombre
-   para que quede algo como `para-vos.netlify.app`.
+   para que quede algo como `para-mafer.netlify.app`.
 
 ### Vercel
 
@@ -325,22 +284,23 @@ Cada vez que hagas `git push`, se actualiza sola.
 
 ---
 
-## 🎬 Las 12 escenas
+## 🎬 Las escenas
 
 | # | Escena | Qué pasa |
 |---|---|---|
 | 1 | **Intro** | Cielo nocturno, estrellas, "Preparé algo para vos..." y el botón de entrar (con onda de luz y zoom cinematográfico). |
 | 2 | **El personaje** | Aparece el personaje. Respira, parpadea y te mira. Tocalo y reacciona. |
 | 3 | **El cielo** | Dos estrellas (vos y ella) lejísimos, que se acercan y quedan unidas por un lazo de luz. |
-| 4 | **Recuerdos** | Polaroids flotando en el espacio. Tocá una y se agranda con su texto. |
-| 5 | **Cartas** | Sobres que se abren con animación y muestran la carta. |
-| 6 | **Galaxia** | Galaxia interactiva con 5 estrellas escondidas. Al encontrarlas todas, se desbloquea una sorpresa. |
-| 7 | **Interacciones** | No es una escena: son los detalles que están en toda la experiencia (ver más abajo). |
-| 8 | **Lluvia** | Una ventana con lluvia real en canvas, gotas resbalando por el vidrio y el personaje mirando afuera. |
-| 9 | **Calidez** | Todo se pone tibio: pétalos, corazones, luz naranja. |
-| 10 | **El abrazo** | El momento importante: el personaje camina hacia vos desde la oscuridad, deja partículas en cada paso y abre los brazos hacia la cámara. |
-| 11 | **La caja** | Una caja de regalo que se abre con luz, confeti y el mensaje personalizado. |
-| 12 | **Final** | El personaje sentado mirando las estrellas y el mensaje de cierre. |
+| 4 | **Cartas** | Sobres flotando que se abren con animación y muestran la carta. |
+| 5 | **Galaxia** | Galaxia interactiva con 5 estrellas escondidas. Al encontrarlas todas, se desbloquea una sorpresa. |
+| 6 | **Lluvia** | Una ventana con lluvia real en canvas, gotas resbalando por el vidrio y el personaje mirando afuera. |
+| 7 | **Calidez** | Todo se pone tibio: pétalos, corazones, luz naranja. |
+| 8 | **El abrazo** | El momento importante: el personaje camina hacia vos desde la oscuridad, deja partículas en cada paso y abre los brazos hacia la cámara. |
+| 9 | **La caja** | Una caja de regalo que se abre con luz, confeti y el mensaje personalizado. |
+| 10 | **Final** | El personaje sentado mirando las estrellas y el mensaje de cierre. |
+
+Además hay micro-interacciones repartidas por toda la experiencia (ver
+[detalles escondidos](#-detalles-escondidos)).
 
 ---
 
@@ -360,7 +320,6 @@ Cada vez que hagas `git push`, se actualiza sola.
 │   ├── interactions.js     ← puntero, parallax y el personaje
 │   └── scenes.js           ← el guion: qué pasa en cada escena
 ├── assets/
-│   ├── images/             ← tus fotos
 │   ├── sounds/             ← efectos de sonido
 │   ├── characters/         ← si querés cambiar el personaje
 │   └── music.mp3           ← tu canción (ponela vos)
@@ -385,8 +344,8 @@ porque un CDN esté caído.
 - Si lo tocás, salta y le salen corazones.
 - Hay un **gatito escondido** abajo a la izquierda de la galaxia. Tocalo.
 - Las estrellas fugaces aparecen solas, cada tanto.
-- El fondo tiene parallax: se mueve apenas con el mouse (y con el giroscopio
-  en el celular).
+- El fondo tiene parallax: se mueve apenas con el mouse (y con el
+  giroscopio en el celular).
 
 ---
 

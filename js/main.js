@@ -8,8 +8,8 @@
 const CONFIG = {
 
   /* ─── 1. NOMBRES ─────────────────────────────────────────────────────── */
-  herName: "Mi amor",          // ← el nombre de ella
-  myName:  "Yo",               // ← tu nombre
+  herName: "Mafer",            // ← el nombre de ella
+  myName:  "Ale",              // ← tu nombre
 
   /* ─── 2. MENSAJES FINALES ────────────────────────────────────────────── */
   // Mensaje que aparece cuando se abre la caja de regalo (escena 11)
@@ -21,35 +21,7 @@ const CONFIG = {
   // Mensaje de cierre de la experiencia (escena 12)
   finalMessage: "Te amo. ❤️",
 
-  /* ─── 3. RECUERDOS (escena 4 · polaroids) ─────────────────────────────
-     img     → poné tus fotos en /assets/images/ y escribí la ruta acá.
-               Si el archivo no existe se muestra un placeholder elegante.
-     title   → texto chico arriba de la foto grande
-     caption → texto que aparece debajo de la foto al abrirla             */
-  memories: [
-    {
-      img: "assets/images/recuerdo-1.jpg",
-      title: "Nuestro primer recuerdo",
-      caption: "El día que todo empezó. Todavía me acuerdo de lo que sentí."
-    },
-    {
-      img: "assets/images/recuerdo-2.jpg",
-      title: "Uno de mis momentos favoritos",
-      caption: "Podría volver a este día mil veces y no me cansaría."
-    },
-    {
-      img: "assets/images/recuerdo-3.jpg",
-      title: "¿Te acordás de este día?",
-      caption: "Nos reímos tanto que me dolía la cara."
-    },
-    {
-      img: "assets/images/recuerdo-4.jpg",
-      title: "Un momento que quiero repetir",
-      caption: "Y muchos más. Con vos siempre quiero más tiempo."
-    }
-  ],
-
-  /* ─── 4. CARTAS (escena 5 · sobres) ───────────────────────────────────
+  /* ─── 3. CARTAS (escena 4 · sobres) ───────────────────────────────────
      title → lo que se lee en el sobre cerrado
      text  → la carta (podés usar \n para saltos de línea)                */
   letters: [
@@ -80,7 +52,7 @@ const CONFIG = {
     }
   ],
 
-  /* ─── 5. ESTRELLAS ESPECIALES (escena 6 · galaxia) ────────────────────
+  /* ─── 4. ESTRELLAS ESPECIALES (escena 5 · galaxia) ────────────────────
      Son los 5 recuerdos escondidos en la galaxia.                        */
   specialDates: [
     { date: "El día que nos conocimos", title: "El principio",      text: "Sin saberlo, ese día cambió todo." },
@@ -93,7 +65,7 @@ const CONFIG = {
   galaxyReward: "Cada una de esas estrellas es un pedacito de nosotros.\n" +
                 "Y todavía nos quedan un montón de estrellas por prender.",
 
-  /* ─── 6. TEXTOS DE CADA ESCENA ────────────────────────────────────────
+  /* ─── 5. TEXTOS DE CADA ESCENA ────────────────────────────────────────
      mode: "replace" → cada frase reemplaza a la anterior (cinematográfico)
            "stack"   → las frases se van acumulando
      delay: milisegundos de espera ANTES de que aparezca la frase
@@ -123,11 +95,6 @@ const CONFIG = {
         { text: "A veces la distancia se siente enorme...", delay: 1000, hold: 3200 },
         { text: "Pero nunca fue suficiente para separarnos.", delay: 300, hold: 1200 }
       ],
-      button: "Seguir ✦"
-    },
-    memories: {
-      title: "Pequeños recuerdos",
-      hint:  "Tocá una foto para verla de cerca",
       button: "Seguir ✦"
     },
     letters: {
@@ -184,12 +151,12 @@ const CONFIG = {
     }
   },
 
-  /* ─── 7. EXTRAS ESCONDIDOS ───────────────────────────────────────────── */
+  /* ─── 6. EXTRAS ESCONDIDOS ───────────────────────────────────────────── */
   catMessage: "Miau. Yo también la extraño. 🐈‍⬛",   // gatito escondido en la galaxia
   loadingText: "Preparando algo especial...",
   loadedText:  "Listo ❤️",
 
-  /* ─── 8. AUDIO ────────────────────────────────────────────────────────
+  /* ─── 7. AUDIO ────────────────────────────────────────────────────────
      Poné tu archivo en assets/music.mp3 (si no existe, no pasa nada).    */
   audio: {
     music: "assets/music.mp3",
@@ -204,7 +171,7 @@ const CONFIG = {
     }
   },
 
-  /* ─── 9. COLORES ──────────────────────────────────────────────────────
+  /* ─── 8. COLORES ──────────────────────────────────────────────────────
      Cambiá acá la paleta y se actualiza toda la página.                  */
   theme: {
     night:  "#060a1f",
@@ -217,7 +184,7 @@ const CONFIG = {
     warm:   "#ffb27a"
   },
 
-  /* ─── 10. RENDIMIENTO ─────────────────────────────────────────────────
+  /* ─── 9. RENDIMIENTO ──────────────────────────────────────────────────
      Bajá estos números si notás que va lento en algún celular.           */
   perf: {
     starsDesktop: 260,
@@ -372,7 +339,7 @@ const Copy = {
    GESTOR DE ESCENAS
    ========================================================================== */
 const SM = {
-  order: ['intro', 'character', 'sky', 'memories', 'letters', 'galaxy', 'rain', 'warm', 'hug', 'gift', 'final'],
+  order: ['intro', 'character', 'sky', 'letters', 'galaxy', 'rain', 'warm', 'hug', 'gift', 'final'],
   defs: {},
   current: null,
   token: 0,
@@ -551,8 +518,7 @@ const App = {
       'enter': T.intro.button,
       'music-optin': T.intro.musicOn,
       'to-sky': T.character.button,
-      'to-memories': T.sky.button,
-      'to-letters': T.memories.button,
+      'to-letters': T.sky.button,
       'to-galaxy': T.letters.button,
       'to-rain': T.galaxy.button,
       'to-warm': T.rain.button,
@@ -566,7 +532,7 @@ const App = {
       $$(`[data-action="${action}"]`).forEach(b => b.textContent = label);
     });
     // títulos y ayudas
-    ['memories', 'letters', 'galaxy'].forEach(s => {
+    ['letters', 'galaxy'].forEach(s => {
       const ti = $(`[data-title="${s}"]`); if (ti) ti.textContent = T[s].title;
       const hi = $(`[data-hint="${s}"]`);  if (hi) hi.textContent = T[s].hint;
     });
@@ -615,7 +581,7 @@ const App = {
     $('#hud').classList.remove('hidden');
 
     // Atajo para probar: index.html#escena=hug salta directo a esa escena.
-    // Nombres válidos: intro, character, sky, memories, letters, galaxy,
+    // Nombres válidos: intro, character, sky, letters, galaxy,
     //                  rain, warm, hug, gift, final
     const wanted = (location.hash.match(/escena=([a-z]+)/) || [])[1];
     SM.go(SM.order.includes(wanted) ? wanted : 'intro');

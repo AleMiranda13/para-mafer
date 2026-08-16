@@ -639,37 +639,46 @@ const Galaxy = {
     Galaxy.w = s.w; Galaxy.h = s.h;
   },
 
-  build() {
+  /* Las posiciones se guardan una sola vez como "semillas" relativas.
+     Así, si se gira el celular o cambia el tamaño, la galaxia se redibuja
+     igual y las estrellas especiales no cambian de lugar. */
+  seed() {
     const n = U.isMobile ? 180 : 320;
-    Galaxy.stars = [];
+    Galaxy._stars = [];
     for (let i = 0; i < n; i++) {
-      // distribución en espiral suave
-      const t = Math.random();
+      const t = Math.random();                       // distancia al centro
       const arm = Math.floor(Math.random() * 2) * Math.PI;
-      const ang = t * 4.2 + arm + U.rand(-0.35, 0.35);
-      // el radio se calcula por eje para que la espiral llene el recuadro
-      // sin salirse, tanto en pantalla ancha como en celular
-      const rx = t * Galaxy.w * 0.52 + U.rand(-20, 20);
-      const ry = t * Galaxy.h * 0.52 + U.rand(-16, 16);
-      Galaxy.stars.push({
-        x: Galaxy.w / 2 + Math.cos(ang) * rx,
-        y: Galaxy.h / 2 + Math.sin(ang) * ry,
+      Galaxy._stars.push({
+        t, ang: t * 4.2 + arm + U.rand(-0.35, 0.35),
+        jx: U.rand(-0.02, 0.02), jy: U.rand(-0.02, 0.02),
         r: U.rand(0.6, 1.9), a: U.rand(0.25, 0.9),
         ph: U.rand(0, 6.28), tw: U.rand(0.01, 0.04),
         depth: U.rand(0.3, 1)
       });
     }
-    // estrellas especiales bien repartidas
-    Galaxy.specials = CONFIG.specialDates.map((d, i) => {
-      const ang = (i / CONFIG.specialDates.length) * Math.PI * 2 + 0.6;
-      const t = U.rand(0.55, 0.86);
-      return {
-        data: d, i,
-        x: Galaxy.w / 2 + Math.cos(ang) * Galaxy.w * 0.42 * t,
-        y: Galaxy.h / 2 + Math.sin(ang) * Galaxy.h * 0.40 * t,
-        ph: U.rand(0, 6.28)
-      };
-    });
+    Galaxy._specials = CONFIG.specialDates.map((d, i) => ({
+      data: d, i,
+      ang: (i / CONFIG.specialDates.length) * Math.PI * 2 + 0.6,
+      t: U.rand(0.55, 0.86),
+      ph: U.rand(0, 6.28)
+    }));
+  },
+
+  build() {
+    if (!Galaxy._stars) Galaxy.seed();
+    const cx = Galaxy.w / 2, cy = Galaxy.h / 2;
+    // el radio se calcula por eje para que la espiral llene el recuadro
+    // sin salirse, tanto en pantalla ancha como en celular
+    Galaxy.stars = Galaxy._stars.map(s => ({
+      x: cx + Math.cos(s.ang) * (s.t * 0.52 + s.jx) * Galaxy.w,
+      y: cy + Math.sin(s.ang) * (s.t * 0.52 + s.jy) * Galaxy.h,
+      r: s.r, a: s.a, ph: s.ph, tw: s.tw, depth: s.depth
+    }));
+    Galaxy.specials = Galaxy._specials.map(s => ({
+      data: s.data, i: s.i, ph: s.ph,
+      x: cx + Math.cos(s.ang) * Galaxy.w * 0.42 * s.t,
+      y: cy + Math.sin(s.ang) * Galaxy.h * 0.40 * s.t
+    }));
   },
 
   start() {
