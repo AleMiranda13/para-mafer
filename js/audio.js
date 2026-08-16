@@ -13,7 +13,8 @@
 const Audio = {
   music: null,
   musicOK: false,      // ¿el archivo existe y se pudo cargar?
-  enabled: false,      // ¿la usuaria activó la música?
+  enabled: false,      // ¿está sonando la música?
+  userMuted: false,    // ¿la silenció a propósito? (entonces no la reactivamos)
   sfxCache: {},
   fadeTimer: null,
 
@@ -55,19 +56,18 @@ const Audio = {
     btn.classList.toggle('on', Audio.enabled);
     ico.textContent = Audio.enabled ? '🎵' : '🔇';
     label.textContent = Audio.enabled ? 'Música' : 'Sin música';
-    // botón grande de la intro
-    const optin = $('[data-action="music-optin"]');
-    if (optin) optin.textContent = Audio.enabled ? CONFIG.texts.intro.musicOff : CONFIG.texts.intro.musicOn;
   },
 
   /* Enciende/apaga con fundido */
   toggle() {
-    Audio.enabled ? Audio.stopMusic() : Audio.playMusic();
+    if (Audio.enabled) { Audio.stopMusic(); Audio.userMuted = true; }
+    else Audio.playMusic();
     Audio.syncUI();
   },
 
   playMusic() {
     Audio.enabled = true;
+    Audio.userMuted = false;
     const p = Audio.music.play();
     if (p && p.catch) p.catch(() => { /* autoplay bloqueado: se reintenta al primer toque */ });
     Audio.fade(CONFIG.audio.musicVolume, 2400);

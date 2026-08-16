@@ -98,9 +98,12 @@ const Scenes = {
       mood: 'night', fx: 'default',
       async enter(el, token) {
         Audio.syncUI();
+        const hint = $('.intro-hint', el);
+        hint.classList.remove('show');
         await Copy.play('intro');
         if (token !== SM.token) return;
         SM.showActions(el, 200);
+        setTimeout(() => { if (token === SM.token) hint.classList.add('show'); }, 800);
       }
     });
 
@@ -417,11 +420,10 @@ const Scenes = {
   async action(name, btn) {
     switch (name) {
 
-      case 'music-optin':
-        Audio.toggle();
-        break;
-
       case 'enter': {
+        // Este click es el gesto que necesitan los navegadores para dejar
+        // sonar la música: por eso arranca acá y no antes.
+        if (!Audio.userMuted) Audio.playMusic();
         const r = btn.getBoundingClientRect();
         const x = r.left + r.width / 2, y = r.top + r.height / 2;
         Scenes.lightWave(x, y);
@@ -429,7 +431,6 @@ const Scenes = {
         FX.sparks(x, y, 40, { power: 2.2 });
         FX.hearts(x, y, 8);
         Scenes.cameraZoom(1, 1.14, 1500);
-        if (Audio.enabled) Audio.unlock();
         await A.wait(620);
         SM.go('character');
         break;
@@ -514,6 +515,7 @@ const Scenes = {
   resetAll() {
     $$('.envelope').forEach(e => e.classList.remove('open'));
     $$('.copy').forEach(c => c.innerHTML = '');
+    $$('.intro-hint').forEach(h => h.classList.remove('show'));
     const gw = $('.galaxy-wrap'); if (gw) gw.classList.remove('complete');
     const cat = $('#hidden-cat'); if (cat) cat.classList.remove('found');
     const gift = $('#giftbox'); if (gift) gift.classList.remove('open');

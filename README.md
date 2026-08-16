@@ -64,11 +64,15 @@ Archivo: **`assets/music.mp3`**
 
 Simplemente copiá tu canción ahí con ese nombre exacto. La música:
 
-- nunca arranca sola (los navegadores lo bloquean y además queda feo)
-- se activa con el botón **🎵 Activar música** de la primera pantalla o con
-  el botón de arriba a la derecha
+- **arranca al tocar el botón "✨ Entrar"**. Ese click es el gesto que los
+  navegadores exigen para permitir el audio, así que nunca queda bloqueada
 - entra con un *fade in* suave y sube apenas durante el abrazo
+- se puede silenciar con el botón de arriba a la derecha (y si lo hace,
+  no se vuelve a prender sola)
 - si el archivo no existe, no pasa absolutamente nada
+
+> 💡 Si el mp3 pesa mucho (más de 6 o 7 MB), en celular puede tardar unos
+> segundos en empezar. Se puede achicar exportándolo a 128 kbps.
 
 ### Efectos de sonido (opcionales)
 

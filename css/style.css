@@ -266,6 +266,15 @@ body[data-mood="calm"] #sky-layer{filter:saturate(1.05) brightness(.92)}
 .btn-ghost{padding:12px 24px;font-size:.78rem;background:transparent;
   border-color:rgba(255,255,255,.12);color:var(--txt-soft)}
 
+/* textito debajo del botón de entrar */
+.intro-hint{
+  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(233,226,255,.38);
+  opacity:0;transform:translateY(10px);
+  transition:opacity 1.4s var(--ease-out),transform 1.4s var(--ease-out);
+}
+.intro-hint.show{opacity:1;transform:translateY(0)}
+
 /* ══════════════════════════════════════════════════════════════════════
    PERSONAJE
    ══════════════════════════════════════════════════════════════════════ */

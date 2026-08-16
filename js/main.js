@@ -78,8 +78,9 @@ const CONFIG = {
         { text: "Pero primero tenés que entrar.", delay: 400, hold: 900 }
       ],
       button: "✨ Entrar",
-      musicOn:  "🎵 Activar música",
-      musicOff: "🔇 Silenciar"
+      // Al tocar "Entrar" arranca la música (así ningún navegador la bloquea).
+      // Este textito aparece debajo del botón.
+      hint: "🎧 se escucha mejor con sonido"
     },
     character: {
       mode: "stack",
@@ -516,7 +517,6 @@ const App = {
     // botones
     const map = {
       'enter': T.intro.button,
-      'music-optin': T.intro.musicOn,
       'to-sky': T.character.button,
       'to-letters': T.sky.button,
       'to-galaxy': T.letters.button,
@@ -532,7 +532,7 @@ const App = {
       $$(`[data-action="${action}"]`).forEach(b => b.textContent = label);
     });
     // títulos y ayudas
-    ['letters', 'galaxy'].forEach(s => {
+    ['letters', 'galaxy', 'intro'].forEach(s => {
       const ti = $(`[data-title="${s}"]`); if (ti) ti.textContent = T[s].title;
       const hi = $(`[data-hint="${s}"]`);  if (hi) hi.textContent = T[s].hint;
     });

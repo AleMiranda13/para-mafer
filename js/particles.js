@@ -37,9 +37,11 @@ document.addEventListener('visibilitychange', () => {
 /* ─── Utilidades de canvas ────────────────────────────────────────────── */
 function fitCanvas(cv) {
   const dpr = Math.min(window.devicePixelRatio || 1, U.isMobile ? 1.5 : 2);
+  // Usamos clientWidth/Height y no getBoundingClientRect: el rect incluye el
+  // transform de las animaciones de entrada y mediría el canvas escalado.
   const r = cv.getBoundingClientRect();
-  const w = Math.max(1, Math.round(r.width));
-  const h = Math.max(1, Math.round(r.height));
+  const w = Math.max(1, cv.clientWidth || Math.round(r.width));
+  const h = Math.max(1, cv.clientHeight || Math.round(r.height));
   cv.width = Math.round(w * dpr);
   cv.height = Math.round(h * dpr);
   const ctx = cv.getContext('2d');
