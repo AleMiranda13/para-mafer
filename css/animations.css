@@ -1,0 +1,173 @@
+/* ==========================================================================
+   animations.css · Todos los keyframes y micro-animaciones
+   ========================================================================== */
+
+/* ── Preloader ─────────────────────────────────────────────────────────── */
+@keyframes draw-heart{
+  0%{stroke-dashoffset:260;fill:rgba(255,158,203,0)}
+  55%{stroke-dashoffset:0;fill:rgba(255,158,203,.06)}
+  80%{fill:rgba(255,158,203,.22)}
+  100%{stroke-dashoffset:0;fill:rgba(255,158,203,.14)}
+}
+@keyframes beat{
+  0%,100%{transform:scale(1)}
+  14%{transform:scale(1.12)}
+  28%{transform:scale(1)}
+  42%{transform:scale(1.07)}
+  56%{transform:scale(1)}
+}
+@keyframes pulse-soft{
+  0%,100%{transform:scale(.9);opacity:.55}
+  50%{transform:scale(1.15);opacity:.9}
+}
+@keyframes fade-pulse{
+  0%,100%{opacity:.55}
+  50%{opacity:1}
+}
+
+/* ── Revelado de texto ─────────────────────────────────────────────────── */
+@keyframes word-in{
+  0%{opacity:0;transform:translateY(20px) rotateX(-40deg);filter:blur(8px)}
+  60%{filter:blur(0)}
+  100%{opacity:1;transform:translateY(0) rotateX(0);filter:blur(0)}
+}
+
+/* ── Botones ───────────────────────────────────────────────────────────── */
+@keyframes sheen{
+  0%{left:-120%}
+  22%{left:130%}
+  100%{left:130%}
+}
+@keyframes note-bounce{
+  0%,100%{transform:translateY(0) rotate(0)}
+  30%{transform:translateY(-3px) rotate(-8deg)}
+  60%{transform:translateY(0) rotate(6deg)}
+}
+
+/* ── Fondo: bokeh y nebulosas ──────────────────────────────────────────── */
+.bokeh{
+  animation-name:bokeh-drift;
+  animation-iteration-count:infinite;
+  animation-timing-function:ease-in-out;
+  animation-direction:alternate;
+}
+@keyframes bokeh-drift{
+  0%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(28px,-38px,0) scale(1.18)}
+  100%{transform:translate3d(-24px,26px,0) scale(.92)}
+}
+.neb-1{animation:neb-move-a 46s ease-in-out infinite alternate}
+.neb-2{animation:neb-move-b 58s ease-in-out infinite alternate}
+.neb-3{animation:neb-move-a 72s ease-in-out infinite alternate-reverse}
+@keyframes neb-move-a{
+  0%{transform:translate3d(0,0,0) scale(1);opacity:.42}
+  100%{transform:translate3d(6%,-4%,0) scale(1.2);opacity:.62}
+}
+@keyframes neb-move-b{
+  0%{transform:translate3d(0,0,0) scale(1.1);opacity:.35}
+  100%{transform:translate3d(-7%,5%,0) scale(.95);opacity:.6}
+}
+
+/* ── Personaje ─────────────────────────────────────────────────────────── */
+@keyframes breathe{
+  0%,100%{transform:scaleY(1) scaleX(1) translateY(0)}
+  50%{transform:scaleY(1.035) scaleX(.988) translateY(-2px)}
+}
+@keyframes shadow-breathe{
+  0%,100%{transform:scaleX(1);opacity:.5}
+  50%{transform:scaleX(.93);opacity:.38}
+}
+@keyframes aura-pulse{
+  0%,100%{transform:scale(.94);opacity:.5}
+  50%{transform:scale(1.08);opacity:.85}
+}
+@keyframes happy-wiggle{
+  0%{transform:rotate(0) scale(1)}
+  25%{transform:rotate(-4deg) scale(1.04)}
+  50%{transform:rotate(4deg) scale(1.05)}
+  75%{transform:rotate(-2deg) scale(1.02)}
+  100%{transform:rotate(0) scale(1)}
+}
+@keyframes step-l{
+  0%,100%{transform:translate(0,0) rotate(0)}
+  50%{transform:translate(-4px,-7px) rotate(-8deg)}
+}
+@keyframes step-r{
+  0%,100%{transform:translate(0,-7px) rotate(8deg)}
+  50%{transform:translate(4px,0) rotate(0)}
+}
+@keyframes swing-l{
+  0%,100%{transform:rotate(9deg)}
+  50%{transform:rotate(-11deg)}
+}
+@keyframes swing-r{
+  0%,100%{transform:rotate(-9deg)}
+  50%{transform:rotate(11deg)}
+}
+/* brazos abriéndose hacia la cámara */
+@keyframes hug-arm-l{
+  0%{transform:rotate(0) scale(1)}
+  55%{transform:rotate(-58deg) translate(-10px,-16px) scale(1.12)}
+  100%{transform:rotate(-46deg) translate(-6px,-10px) scale(1.35)}
+}
+@keyframes hug-arm-r{
+  0%{transform:rotate(0) scale(1)}
+  55%{transform:rotate(58deg) translate(10px,-16px) scale(1.12)}
+  100%{transform:rotate(46deg) translate(6px,-10px) scale(1.35)}
+}
+
+/* ── Estrellas y luces ─────────────────────────────────────────────────── */
+@keyframes star-throb{
+  0%,100%{transform:scale(1);filter:brightness(1)}
+  50%{transform:scale(1.35);filter:brightness(1.4)}
+}
+@keyframes dash-flow{
+  0%{stroke-dashoffset:0}
+  100%{stroke-dashoffset:-64}
+}
+@keyframes twinkle{
+  0%,100%{opacity:.6;transform:scale(.92) rotate(0)}
+  50%{opacity:1;transform:scale(1.12) rotate(12deg)}
+}
+@keyframes far-pulse{
+  0%,100%{opacity:.28;transform:translate(-50%,-50%) scale(.92)}
+  50%{opacity:.5;transform:translate(-50%,-50%) scale(1.1)}
+}
+@keyframes orb-breathe{
+  0%,100%{transform:scale(1);opacity:.85}
+  50%{transform:scale(1.09);opacity:1}
+}
+@keyframes city-flicker{
+  0%,100%{opacity:.5;transform:scale(1)}
+  40%{opacity:.95;transform:scale(1.15)}
+  70%{opacity:.65;transform:scale(.95)}
+}
+
+/* ── Objetos flotantes ─────────────────────────────────────────────────── */
+/* Anima la propiedad independiente "translate" para no pisar el
+   transform que usa el hover (así el efecto al pasar el mouse funciona). */
+@keyframes float-y{
+  0%{translate:0 0}
+  100%{translate:0 -16px}
+}
+@keyframes float-soft{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
+@keyframes cat-peek{
+  0%,86%,100%{transform:translateY(0) rotate(0)}
+  90%{transform:translateY(-5px) rotate(-6deg)}
+  94%{transform:translateY(0) rotate(4deg)}
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Respeto por "reducir movimiento" del sistema
+   ══════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.16s !important;
+  }
+  .line .w{opacity:1;transform:none;filter:none}
+}

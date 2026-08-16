@@ -1,0 +1,156 @@
+/* ==========================================================================
+   responsive.css · Mobile first + adaptaciones para tablet/desktop
+   La experiencia está pensada primero para celular: acá se ajustan tamaños,
+   se reemplaza el hover por toque y se aligeran los efectos más pesados.
+   ========================================================================== */
+
+/* ══════════════ CELULAR (hasta 780px) ══════════════ */
+@media (max-width:780px){
+
+  .scene-inner{
+    padding:clamp(72px,11vh,96px) 18px clamp(58px,9vh,76px);
+    gap:22px;
+  }
+
+  .hud-label{display:none}
+  .hud-btn{padding:10px 12px;min-width:44px;justify-content:center}
+  #progress{gap:7px}
+  #progress .dot{width:4px;height:4px}
+  #progress .dot.now{width:16px}
+
+  .line{font-size:clamp(1.35rem,6.2vw,1.9rem);line-height:1.4}
+  .copy{max-width:94vw}
+
+  /* botones cómodos para el dedo */
+  .btn{padding:15px 26px;font-size:.86rem;min-height:48px}
+  .btn-ghost{padding:12px 20px}
+  .actions{gap:11px}
+
+  /* personaje */
+  .char-stage{width:min(240px,62vw)}
+  .char-at-window{width:min(150px,42vw)}
+
+  /* estrellas de la escena 3 */
+  .sky-field{height:min(42vh,320px)}
+  .star-me{left:12%;top:22%}
+  .star-her{left:78%;top:72%}
+  .big-star .star-name{font-size:.9rem;top:22px}
+
+  /* recuerdos: 2 columnas cómodas */
+  .polaroids{gap:14px}
+  .polaroid{width:calc(50% - 9px);max-width:190px;padding:9px 9px 42px}
+  .polaroid-caption{font-size:.7rem;line-height:1.25;bottom:8px}
+
+  /* cartas */
+  .envelopes{gap:14px}
+  .envelope{width:calc(50% - 9px);max-width:180px}
+  .env-title{font-size:.82rem}
+
+  /* galaxia */
+  .galaxy-wrap{height:min(46vh,380px);border-radius:20px}
+  .galaxy-counter{top:10px;right:12px;font-size:.66rem;padding:5px 10px}
+  .hidden-cat{opacity:.28}
+
+  /* ventana con lluvia */
+  .window-frame{width:92vw;height:min(44vh,340px);padding:9px}
+  .window-cross-v{width:8px;margin-left:-4px}
+  .window-cross-h{height:8px;margin-top:-4px}
+
+  /* abrazo */
+  #hug-walker{width:min(260px,74vw);bottom:20%}
+  .hug-arm{width:64vw;height:64vh}
+  .hug-arm-l{left:-70vw;bottom:-46vh}
+  .hug-arm-r{right:-70vw;bottom:-46vh}
+  .scene[data-scene="hug"].is-hugging .hug-arm-l{transform:translate(52vw,-10vh) rotate(30deg)}
+  .scene[data-scene="hug"].is-hugging .hug-arm-r{transform:translate(-52vw,-10vh) rotate(-30deg)}
+
+  /* regalo */
+  .giftbox{width:150px;height:142px}
+  .gift-message .line{font-size:1.02rem;line-height:1.55}
+
+  /* overlays */
+  .overlay-content{max-width:94vw;max-height:82dvh}
+  .memory-view .photo.big{width:92vw;max-height:48dvh}
+  .memory-view .photo.big img{max-height:48dvh}
+  .letter-card{padding:30px 22px}
+  .letter-body p{font-size:1.05rem;line-height:1.75}
+  .overlay-close{top:14px;right:14px;width:46px;height:46px}
+
+  .toast{bottom:80px;font-size:.94rem;padding:11px 20px;max-width:88vw;text-align:center}
+}
+
+/* ══════════════ CELULAR CHICO ══════════════ */
+@media (max-width:380px){
+  .line{font-size:1.22rem}
+  .btn{padding:14px 20px;font-size:.8rem;letter-spacing:.08em}
+  .polaroid{width:100%;max-width:220px}
+  .envelope{width:100%;max-width:220px}
+}
+
+/* ══════════════ CELULAR ACOSTADO ══════════════ */
+@media (max-height:520px) and (orientation:landscape){
+  .scene-inner{padding:54px 20px 46px;gap:14px}
+  .line{font-size:clamp(1.05rem,3.4vh,1.5rem)}
+  .char-stage{width:min(150px,26vh)}
+  .sky-field{height:52vh}
+  .galaxy-wrap{height:56vh}
+  .window-frame{height:60vh;width:min(520px,70vw)}
+  .polaroid{width:118px;padding:7px 7px 26px}
+  .polaroid-caption{font-size:.62rem}
+  .giftbox{width:120px;height:114px}
+  #hug-walker{bottom:8%}
+}
+
+/* ══════════════ TABLET ══════════════ */
+@media (min-width:781px) and (max-width:1100px){
+  .polaroid{width:clamp(150px,22vw,180px)}
+  .galaxy-wrap{height:min(50vh,420px)}
+}
+
+/* ══════════════ PANTALLAS GRANDES ══════════════ */
+@media (min-width:1500px){
+  .scene-inner{gap:46px}
+  .line{font-size:2.8rem}
+  .sky-field{height:420px}
+  .galaxy-wrap{height:520px}
+}
+
+/* ══════════════ DISPOSITIVOS TÁCTILES ══════════════
+   Sin hover real: el efecto pasa al toque (:active) y se agrandan las
+   zonas tocables.                                                        */
+@media (hover:none){
+  .polaroid:hover,.envelope:hover{transform:none;rotate:var(--rot,0deg)}
+  .polaroid:active{
+    rotate:0deg;transform:scale(1.06);
+    box-shadow:0 26px 60px rgba(6,4,28,.7),0 0 40px rgba(255,158,203,.5);
+  }
+  .envelope:active{rotate:0deg;transform:scale(1.05)}
+  .btn:hover{transform:none;letter-spacing:.11em}
+  .btn.show:active{
+    transform:scale(.97);
+    box-shadow:0 10px 40px rgba(139,92,246,.5),0 0 26px rgba(255,158,203,.4);
+  }
+  .btn:active::before{opacity:1}
+  .hud-btn:hover{transform:none}
+  .hud-btn:active{transform:scale(.95)}
+  .hidden-cat{padding:6px}
+  .overlay-close:hover{transform:none}
+  .overlay-close:active{transform:scale(.92)}
+}
+
+/* ══════════════ AJUSTES DE RENDIMIENTO ══════════════
+   En pantallas chicas bajamos el desenfoque (es lo más caro de todo).    */
+@media (max-width:600px){
+  .nebula{filter:blur(42px)}
+  .bokeh{filter:blur(20px)}
+  body.blurred #stage{filter:blur(5px)}
+  .overlay-backdrop{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+}
+
+/* Pantallas con notch / barra de gestos */
+@supports (padding:max(0px)){
+  .scene-inner{
+    padding-top:max(clamp(64px,9vh,90px),calc(env(safe-area-inset-top) + 56px));
+    padding-bottom:max(clamp(52px,8vh,80px),calc(env(safe-area-inset-bottom) + 46px));
+  }
+}

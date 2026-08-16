@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#060a1f">
+<title>Para vos ✨</title>
+<meta name="description" content="Un pequeño regalo interactivo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💜</text></svg>">
+</head>
+<body class="is-loading">
+
+<!-- ══════════════ PRELOADER ══════════════ -->
+<div id="preloader" aria-hidden="false">
+  <div class="pre-inner">
+    <div class="pre-heart">
+      <svg viewBox="0 0 100 90" width="72" height="66" aria-hidden="true">
+        <path class="pre-heart-path" d="M50 84 C 18 60, 4 42, 4 26 A 22 22 0 0 1 50 18 A 22 22 0 0 1 96 26 C 96 42, 82 60, 50 84 Z"/>
+      </svg>
+      <span class="pre-heart-glow"></span>
+    </div>
+    <p class="pre-text" id="pre-text">Preparando algo especial...</p>
+    <div class="pre-bar"><span id="pre-bar-fill"></span></div>
+  </div>
+</div>
+
+<!-- ══════════════ CAPAS DE FONDO ══════════════ -->
+<div id="sky-layer" aria-hidden="true">
+  <div class="grad grad-a"></div>
+  <div class="grad grad-b"></div>
+  <div class="grad grad-warm"></div>
+  <div class="nebula neb-1"></div>
+  <div class="nebula neb-2"></div>
+  <div class="nebula neb-3"></div>
+</div>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+<div id="bokeh-layer" aria-hidden="true"></div>
+<canvas id="fx-canvas" aria-hidden="true"></canvas>
+<div id="vignette" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
+<div id="flash" aria-hidden="true"></div>
+
+<!-- ══════════════ HUD ══════════════ -->
+<header id="hud" class="hidden">
+  <button id="btn-music" class="hud-btn" type="button" aria-pressed="false" title="Música">
+    <span class="hud-ico" id="music-ico">🎵</span>
+    <span class="hud-label" id="music-label">Música</span>
+  </button>
+  <nav id="progress" aria-label="Progreso"></nav>
+</header>
+
+<!-- ══════════════ ESCENAS ══════════════ -->
+<main id="stage">
+
+  <!-- 1 · INTRO -->
+  <section class="scene" data-scene="intro" aria-label="Introducción">
+    <div class="scene-inner center">
+      <div class="copy" data-copy="intro"></div>
+      <div class="actions">
+        <button class="btn btn-primary" data-action="enter" type="button"></button>
+        <button class="btn btn-ghost" data-action="music-optin" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · EL PERSONAJE -->
+  <section class="scene" data-scene="character" aria-label="El personaje">
+    <div class="scene-inner center">
+      <div class="char-stage" data-char-slot="character">
+        <div class="char-ground"></div>
+      </div>
+      <div class="copy" data-copy="character"></div>
+      <div class="actions">
+        <button class="btn btn-primary" data-action="to-sky" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · EL CIELO Y LA DISTANCIA -->
+  <section class="scene" data-scene="sky" aria-label="El cielo y la distancia">
+    <div class="scene-inner center">
+      <div class="sky-field" id="sky-field">
+        <svg class="sky-link" id="sky-link" aria-hidden="true">
+          <defs>
+            <linearGradient id="linkGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#ffd7e8"/>
+              <stop offset="50%" stop-color="#c9a6ff"/>
+              <stop offset="100%" stop-color="#ffd7e8"/>
+            </linearGradient>
+          </defs>
+          <path id="link-path" fill="none" stroke="url(#linkGrad)" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <div class="big-star star-me" id="star-me"><i></i><span class="star-name"></span></div>
+        <div class="big-star star-her" id="star-her"><i></i><span class="star-name"></span></div>
+      </div>
+      <div class="copy" data-copy="sky"></div>
+      <div class="actions">
+        <button class="btn btn-primary" data-action="to-memories" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · RECUERDOS -->
+  <section class="scene" data-scene="memories" aria-label="Recuerdos">
+    <div class="scene-inner">
+      <div class="scene-head">
+        <h2 class="title" data-title="memories"></h2>
+        <p class="hint" data-hint="memories"></p>
+      </div>
+      <div class="polaroids" id="polaroids"></div>
+      <div class="actions">
+        <button class="btn btn-primary" data-action="to-letters" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · CARTAS -->
+  <section class="scene" data-scene="letters" aria-label="Cartas">
+    <div class="scene-inner">
+      <div class="scene-head">
+        <h2 class="title" data-title="letters"></h2>
+        <p class="hint" data-hint="letters"></p>
+      </div>
+      <div class="envelopes" id="envelopes"></div>
+      <div class="actions">
+        <button class="btn btn-primary" data-action="to-galaxy" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · GALAXIA DE RECUERDOS -->
+  <section class="scene" data-scene="galaxy" aria-label="Galaxia de recuerdos">
+    <div class="scene-inner">
+      <div class="scene-head">
+        <h2 class="title" data-title="galaxy"></h2>
+        <p class="hint" data-hint="galaxy"></p>
+      </div>
+      <div class="galaxy-wrap">
+        <canvas id="galaxy-canvas"></canvas>
+        <div class="galaxy-counter"><span id="galaxy-found">0</span> / <span id="galaxy-total">5</span></div>
+        <button class="hidden-cat" id="hidden-cat" type="button" aria-label="?">
+          <svg viewBox="0 0 64 56" width="34" height="30" aria-hidden="true">
+            <path d="M10 52 C6 34 8 16 12 6 l12 10 h16 L52 6 c4 10 6 28 2 46 z" fill="#2b2350"/>
+            <circle cx="24" cy="30" r="3.2" fill="#ffd7a0"/><circle cx="40" cy="30" r="3.2" fill="#ffd7a0"/>
+            <path d="M28 38 q4 4 8 0" stroke="#ffd7a0" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" data-action="to-rain" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · LLUVIA -->
+  <section class="scene" data-scene="rain" aria-label="Lluvia">
+    <div class="scene-inner center">
+      <div class="window-frame">
+        <div class="window-glass">
+          <canvas id="rain-canvas"></canvas>
+          <div class="city-lights">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="window-cross-v"></div>
+        <div class="window-cross-h"></div>
+        <div class="window-sill"></div>
+        <div class="char-stage char-at-window" data-char-slot="rain"></div>
+      </div>
+      <div class="copy" data-copy="rain"></div>
+      <div class="actions">
+        <button class="btn btn-primary" data-action="to-warm" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · CAMBIO A CÁLIDO -->
+  <section class="scene" data-scene="warm" aria-label="Calidez">
+    <div class="scene-inner center">
+      <div class="warm-orb"></div>
+      <div class="copy" data-copy="warm"></div>
+      <div class="actions">
+        <button class="btn btn-primary btn-warm" data-action="to-hug" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · EL ABRAZO -->
+  <section class="scene" data-scene="hug" aria-label="El abrazo">
+    <div class="scene-inner center">
+      <div class="hug-void">
+        <div class="far-light"></div>
+        <div class="hug-walker" id="hug-walker">
+          <div class="char-stage" data-char-slot="hug"></div>
+        </div>
+        <div class="hug-arm hug-arm-l"></div>
+        <div class="hug-arm hug-arm-r"></div>
+        <div class="hug-warmth"></div>
+      </div>
+      <div class="copy copy-over" data-copy="hug"></div>
+      <div class="actions">
+        <button class="btn btn-primary" data-action="to-gift" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · CAJA SORPRESA -->
+  <section class="scene" data-scene="gift" aria-label="Caja sorpresa">
+    <div class="scene-inner center">
+      <div class="copy" data-copy="gift"></div>
+      <div class="giftbox" id="giftbox">
+        <div class="gift-beam"></div>
+        <div class="gift-lid"><span class="gift-ribbon-v"></span><span class="gift-bow"></span></div>
+        <div class="gift-body"><span class="gift-ribbon-v"></span></div>
+        <div class="gift-glow"></div>
+      </div>
+      <div class="gift-message" id="gift-message"></div>
+      <div class="actions">
+        <button class="btn btn-primary" data-action="open-gift" type="button"></button>
+        <button class="btn btn-primary hidden" data-action="to-final" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · FINAL -->
+  <section class="scene" data-scene="final" aria-label="Final">
+    <div class="scene-inner center">
+      <div class="final-hill">
+        <div class="char-stage char-sitting" data-char-slot="final"></div>
+        <div class="hill"></div>
+      </div>
+      <div class="copy" data-copy="final"></div>
+      <div class="actions">
+        <button class="btn btn-ghost" data-action="restart" type="button"></button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══════════════ OVERLAYS ══════════════ -->
+<div id="overlay" class="hidden" role="dialog" aria-modal="true">
+  <div class="overlay-backdrop" data-close></div>
+  <div class="overlay-content" id="overlay-content"></div>
+  <button class="overlay-close" data-close type="button" aria-label="Cerrar">✕</button>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<!-- ══════════════ DEFS SVG (gradientes compartidos) ══════════════ -->
+<svg id="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="cBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdf3ff"/><stop offset="55%" stop-color="#e9dcff"/><stop offset="100%" stop-color="#c8b4f0"/>
+    </linearGradient>
+    <linearGradient id="cHead" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#fffaff"/><stop offset="60%" stop-color="#f0e6ff"/><stop offset="100%" stop-color="#cfbcf2"/>
+    </linearGradient>
+    <radialGradient id="cBlush" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#ff9ecb" stop-opacity="0.75"/><stop offset="100%" stop-color="#ff9ecb" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#c9a6ff" stop-opacity="0.55"/><stop offset="100%" stop-color="#c9a6ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cScarf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff9ecb"/><stop offset="100%" stop-color="#f5d491"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ══════════════ PERSONAJE (plantilla reutilizable) ══════════════
+     Para cambiarlo por tu propio dibujo mirá el README (sección "Cambiar el personaje").
+-->
+<template id="tpl-character">
+  <svg class="char" viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <ellipse class="char-aura" cx="110" cy="130" rx="105" ry="115" fill="url(#cGlow)"/>
+    <ellipse class="char-shadow" cx="110" cy="243" rx="56" ry="10"/>
+    <g class="char-root">
+      <g class="char-body-group">
+        <!-- brazos (detrás del cuerpo) -->
+        <g class="char-arm char-arm-l"><ellipse cx="52" cy="182" rx="15" ry="27" fill="url(#cBody)"/></g>
+        <g class="char-arm char-arm-r"><ellipse cx="168" cy="182" rx="15" ry="27" fill="url(#cBody)"/></g>
+        <!-- piernas -->
+        <g class="char-leg char-leg-l"><ellipse cx="88" cy="232" rx="17" ry="12" fill="#c8b4f0"/></g>
+        <g class="char-leg char-leg-r"><ellipse cx="132" cy="232" rx="17" ry="12" fill="#c8b4f0"/></g>
+        <!-- cuerpo -->
+        <ellipse class="char-torso" cx="110" cy="192" rx="52" ry="46" fill="url(#cBody)"/>
+        <path class="char-belly" d="M110 160 a30 30 0 0 1 0 62 a30 30 0 0 1 0 -62" fill="#fff6ff" opacity=".55"/>
+        <!-- bufanda dorada -->
+        <path class="char-scarf" d="M70 152 q40 20 80 0 q4 12 -6 18 q-34 14 -68 0 q-10 -6 -6 -18z" fill="url(#cScarf)" opacity=".9"/>
+      </g>
+      <g class="char-head">
+        <!-- orejas -->
+        <circle cx="62" cy="76" r="21" fill="url(#cHead)"/>
+        <circle cx="62" cy="76" r="11" fill="#ffc3de" opacity=".8"/>
+        <circle cx="158" cy="76" r="21" fill="url(#cHead)"/>
+        <circle cx="158" cy="76" r="11" fill="#ffc3de" opacity=".8"/>
+        <!-- cabeza -->
+        <circle class="char-skull" cx="110" cy="98" r="58" fill="url(#cHead)"/>
+        <!-- mechón / brillo -->
+        <ellipse cx="88" cy="66" rx="24" ry="13" fill="#ffffff" opacity=".45" transform="rotate(-18 88 66)"/>
+        <g class="char-face">
+          <!-- rubor -->
+          <ellipse class="char-blush" cx="76" cy="116" rx="16" ry="10" fill="url(#cBlush)"/>
+          <ellipse class="char-blush" cx="144" cy="116" rx="16" ry="10" fill="url(#cBlush)"/>
+          <!-- ojos -->
+          <g class="char-eyes">
+            <g class="char-eye char-eye-l">
+              <ellipse cx="88" cy="100" rx="8.5" ry="11" fill="#2a2350"/>
+              <circle class="char-glint" cx="91" cy="95" r="3.2" fill="#fff"/>
+              <circle class="char-glint2" cx="85" cy="104" r="1.6" fill="#fff" opacity=".7"/>
+            </g>
+            <g class="char-eye char-eye-r">
+              <ellipse cx="132" cy="100" rx="8.5" ry="11" fill="#2a2350"/>
+              <circle class="char-glint" cx="135" cy="95" r="3.2" fill="#fff"/>
+              <circle class="char-glint2" cx="129" cy="104" r="1.6" fill="#fff" opacity=".7"/>
+            </g>
+          </g>
+          <!-- nariz + boca -->
+          <ellipse cx="110" cy="116" rx="4.5" ry="3.4" fill="#a98bd6"/>
+          <path class="char-mouth" d="M100 126 q10 9 20 0" stroke="#a98bd6" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </g>
+      </g>
+    </g>
+  </svg>
+</template>
+
+<script src="js/main.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/interactions.js"></script>
+<script src="js/scenes.js"></script>
+<script>document.addEventListener('DOMContentLoaded', () => App.boot());</script>
+</body>
+</html>
